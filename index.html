@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>মাদ্রাসা রেজাল্ট</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'SolaimanLipi', sans-serif;
+            background: #f0f0f0;
+            padding: 30px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 794px;
+            margin: auto;
+            box-shadow: 0 0 10px #ccc;
+        }
+        h2 {
+            text-align: center;
+        }
+        label, input, select, button {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button {
+            background: green;
+            color: white;
+            padding: 10px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background: #e6ffe6;
+            border: 1px solid #aaa;
+            min-height: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+        table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+            page-break-inside: auto;
+            break-inside: auto;
+        }
+        table, th, td {
+            border: 1px solid #aaa;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+        tr {
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        #download-btn {
+            background: #007BFF;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>মাদ্রাসা পরীক্ষার ফলাফল</h2>
+
+        <label>পরীক্ষার সন:</label>
+        <input type="text" id="year">
+
+        <label>মারহালা:</label>
+        <select id="marhala">
+            <option value="takmil">তাকমিল</option>
+            <option value="fazilat">ফাজিলত</option>
+            <option value="hefzkhana">হেফজখানা</option>
+        </select>
+
+        <label>রোল নম্বর (লগইন):</label>
+        <input type="text" id="roll">
+
+        <button onclick="showResult()">ফলাফল দেখুন</button>
+
+        <div class="result" id="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        function showResult() {
+            const year = document.getElementById('year').value;
+            const marhala = document.getElementById('marhala').value;
+            const roll = document.getElementById('roll').value;
+
+            const results = {
+                "2025_hefzkhana_1": {
+                    loginRoll: "1",
+                    examRoll: "HX-1001",
+                    name: "হুসাইন",
+                    subjects: {
+                        "হিফজ": 100,
+                        "তাজবীদ": 95,
+                        "আখলাক": 85,
+                        "সীরাতুন্নবী": 90,
+                        "ইসলামী ইতিহাস": 88,
+                        "তাফসীর": 92,
+                        "আকীদা": 87,
+                        "আদব": 80,
+                        "আরবী ব্যাকরণ": 85,
+                        "ইংরেজি": 78,
+                        "বাংলা": 82,
+                        "সামাজিক শিক্ষা": 90
+                    },
+                    total: 1032,
+                    grade: "A+"
+                },
+                "2025_hefzkhana_2": {
+                    loginRoll: "2",
+                    examRoll: "HX-1002",
+                    name: "ইমন",
+                    subjects: {
+                        "হিফজ": 90,
+                        "তাজবীদ": 92,
+                        "আখলাক": 28,
+                        "সীরাতুন্নবী": 30,
+                        "ইসলামী ইতিহাস": 87,
+                        "তাফসীর": 93,
+                        "আকীদা": 85,
+                        "আদব": 82,
+                        "আরবী ব্যাকরণ": 84,
+                        "ইংরেজি": 79,
+                        "বাংলা": 81,
+                        "সামাজিক শিক্ষা": 89
+                    },
+                    total: 1011,
+                    grade: "A+"
+                },
+                "2025_hefzkhana_3": {
+                    loginRoll: "3",
+                    examRoll: "HX-1003",
+                    name: "আব্দুর রহমান",
+                    subjects: {
+                        "হিফজ": 93,
+                        "তাজবীদ": 90,
+                        "আখলাক": 86,
+                        "সীরাতুন্নবী": 90,
+                        "ইসলামী ইতিহাস": 85,
+                        "তাফসীর": 89,
+                        "আকীদা": 84,
+                        "আদব": 83,
+                        "আরবী ব্যাকরণ": 82,
+                        "ইংরেজি": 76,
+                        "বাংলা": 80,
+                        "সামাজিক শিক্ষা": 88
+                    },
+                    total: 1026,
+                    grade: "A+"
+                }
+            };
+
+            const key = `${year}_${marhala}_${roll}`;
+            const data = results[key];
+            const resultDiv = document.getElementById('result');
+
+            if (data) {
+                let subjectTable = `<table><tr><th>বিষয়</th><th>নাম্বার</th></tr>`;
+                let failedSubjects = [];
+                for (let subject in data.subjects) {
+                    let mark = data.subjects[subject];
+                    let displayMark = mark;
+                    if (mark < 33) {
+                        failedSubjects.push(subject);
+                        displayMark = `<span style='color:red;font-weight:bold;'>${mark} (F)</span>`;
+                    }
+                    subjectTable += `<tr><td>${subject}</td><td>${displayMark}</td></tr>`;
+                }
+                subjectTable += `</table>`;
+
+                let failNotice = "";
+                if (failedSubjects.length > 0) {
+                    data.grade = "F";
+                    failNotice = `<strong style="color:red;">ফেল করেছে ${failedSubjects.length}টি বিষয়ে: ${failedSubjects.join(", ")}</strong><br>`;
+                }
+
+                resultDiv.innerHTML = `
+                    <strong>নাম:</strong> ${data.name}<br>
+                    ${subjectTable}
+                    ${failNotice}
+                    <strong>মোট নাম্বার:</strong> ${data.total}<br>
+                    <strong>গ্রেড:</strong> ${data.grade}<br>
+                    <strong>রোল নম্বর (পরীক্ষার):</strong> ${data.examRoll}<br>
+                    <button id="download-btn" onclick="downloadPDF()">PDF ডাউনলোড</button>
+                `;
+                resultDiv.style.display = "block";
+            } else {
+                resultDiv.innerHTML = "ফলাফল পাওয়া যায়নি";
+                resultDiv.style.display = "block";
+            }
+        }
+
+        function downloadPDF() {
+            const resultDiv = document.getElementById('result');
+            const opt = {
+                margin: [5, 5, 5, 5],
+                filename: 'result.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 1, useCORS: true, scrollY: 0 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+
+            html2pdf().set(opt).from(resultDiv).save();
+        }
+    </script>
+</body>
+</html>
