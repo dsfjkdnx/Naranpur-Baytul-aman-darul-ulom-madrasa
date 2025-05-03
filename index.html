@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "Naranpur Baytul Aman Darul Ulom Madrasa",
+  "url": "https://dsfjkdnx.github.io/Naranpur-Baytul-aman-darul-ulom-madrasa/",
+  "description": "নারানপুর বায়তুল আমান দারুল উলুম মাদ্রাসার সকল পরীক্ষার অফিসিয়াল ফলাফল দেখার ওয়েবসাইট।",
+  "sameAs": []
+}
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Naranpur Baytul Aman Darul Ulom Madrasa - Official Result Site</title>
     <meta name="description" content="নারানপুর বায়তুল আমান দারুল উলুম মাদ্রাসার সকল পরীক্ষার ফলাফল সহজে এখানে দেখতে পারবেন। রোল নম্বর দিয়ে ফলাফল বের করুন।">
-    <meta name="keywords" content="মাদ্রাসা ফলাফল, মাদ্রাসা রেজাল্ট, হেফজখানা রেজাল্ট, naranpur madrasa,নারানপুর বায়তুল আমান দারুল উলুম মাদ্রাসা, নারানপুর মাদ্রাসা,  ">
+    <meta name="keywords" content="মাদ্রাসা ফলাফল, মাদ্রাসা রেজাল্ট, হেফজখানা রেজাল্ট, বাংলা মাদ্রাসা ফলাফল, নারানপুর মাদ্রাসা">
     <meta name="author" content="Naranpur Madrasa">
     <meta property="og:title" content="Naranpur Baytul Aman Darul Ulom Madrasa Result">
     <meta property="og:description" content="নারানপুর বায়তুল আমান দারুল উলুম মাদ্রাসার অফিসিয়াল রেজাল্ট সাইট।">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dsfjkdnx.github.io/Naranpur-Baytul-aman-darul-ulom-madrasa/">
     <meta property="og:image" content="https://example.com/your-image.jpg">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
     <style>
         body {
             font-family: 'SolaimanLipi', sans-serif;
@@ -78,9 +90,9 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1 style= text-align:centet;>নারানপুর বায়তুল আমান দারুল উলুম মাদ্রাসা</h1><br>
-        <h2>মাদ্রাসা পরীক্ষার ফলাফল</h2>
+    <div class="container">
+        <h1 style= text-align:center;>নারানপুর মাদ্রাসার</h1><br>
+        <h2>পরীক্ষার ফলাফল</h2>
 
         <label>পরীক্ষার সন:</label>
         <input type="text" id="year">
@@ -88,10 +100,11 @@
         <label>মারহালা:</label>
         <select id="marhala">
             <option value="najera bibhaga">নাজেরা বিভাগ</option>
+            <option value="fazilat">ফাজিলত</option>
             <option value="hefzkhana">হেফজখানা</option>
         </select>
 
-        <label>রোল নম্বর:</label>
+        <label>রোল নম্বর (লগইন):</label>
         <input type="text" id="roll">
 
         <button onclick="showResult()">ফলাফল দেখুন</button>
@@ -106,17 +119,25 @@
             const roll = document.getElementById('roll').value;
 
             const results = {
-                "2025_hefzkhana_3": {
-                    loginRoll: "3",
-                    examRoll: "3",
-                    name: "ইমন",
+                "2025_hefzkhana_1": {
+                    loginRoll: "1",
+                    examRoll: "HX-1001",
+                    name: "হুসাইন",
                     subjects: {
-                        "হাদিস ও মাসনুন দোয়া": 98,
-                        "তাজবীদ ও কালিমা": 95,
-                        "মাসআলা": 95,
-                        "কোরআন শরীফ": 80,
+                        "হিফজ": 100,
+                        "তাজবীদ": 95,
+                        "আখলাক": 85,
+                        "সীরাতুন্নবী": 90,
+                        "ইসলামী ইতিহাস": 88,
+                        "তাফসীর": 92,
+                        "আকীদা": 87,
+                        "আদব": 80,
+                        "আরবী ব্যাকরণ": 85,
+                        "ইংরেজি": 78,
+                        "বাংলা": 82,
+                        "সামাজিক শিক্ষা": 90
                     },
-                    total: 368,
+                    total: 1032,
                     grade: "A+"
                 },
                 "2025_hefzkhana_2": {
@@ -140,8 +161,8 @@
                     total: 1011,
                     grade: "A+"
                 },
-                "2025_hefzkhana_9": {
-                    loginRoll: "9",
+                "2025_hefzkhana_3": {
+                    loginRoll: "3",
                     examRoll: "HX-1003",
                     name: "আব্দুর রহমান",
                     subjects: {
@@ -184,6 +205,7 @@
                 }
             };
             
+
             const key = `${year}_${marhala}_${roll}`;
             const data = results[key];
             const resultDiv = document.getElementById('result');
@@ -240,4 +262,3 @@
     </script>
 </body>
 </html>
-
